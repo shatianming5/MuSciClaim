@@ -100,3 +100,45 @@ matrix:
 
 - If you set `adapter: hf_vlm`, you must set `modality: vlm`. Otherwise image conditions will be skipped.
 - If you get OOMs: reduce `preprocessing.resize_max_side`, reduce `max_new_tokens_*`, or use a smaller model.
+
+## Concrete Example (Not Smoke)
+
+This example runs a full text-only evaluation on the MuSciClaims test split (1,515 examples) using
+two open Hugging Face checkpoints with pinned revisions.
+
+`configs/models.yaml`:
+```yaml
+ours:
+  adapter: hf_text
+  repo_id: "HuggingFaceTB/SmolLM2-1.7B-Instruct"
+  revision: "31b70e2e869a7173562077fd711b654946d38674"
+  modality: text
+  device: cpu
+  dtype: float32
+
+base:
+  adapter: hf_text
+  repo_id: "HuggingFaceTB/SmolLM2-360M-Instruct"
+  revision: "a10cc1512eabd3dde888204e902eca88bddb4951"
+  modality: text
+  device: cpu
+  dtype: float32
+```
+
+`configs/run.yaml` (matrix only):
+```yaml
+matrix:
+  conditions: [c_only, claim_only]
+  prompt_modes: [D, R]
+  include_panels_run: false
+  reproducibility_repeats: 2
+```
+
+Run:
+```bash
+musciclaim-eval --run-config configs/run.yaml --models-config configs/models.yaml --run-id exp_full_text_smollm2
+```
+
+Outputs:
+- `scores/exp_full_text_smollm2/report.md`
+- `scores/exp_full_text_smollm2/summary.csv`

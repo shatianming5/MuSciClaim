@@ -141,6 +141,54 @@ musciclaim-check-readmes
 musciclaim-check-docstrings
 ```
 
+## Example: Full Text-Only Run (Not Smoke)
+
+This is a concrete, non-smoke example that runs on the full MuSciClaims test split (1,515 examples)
+using real Hugging Face models (text-only track: `c_only` + `claim_only`).
+
+1. Put this into `configs/models.yaml` (pinned revisions for reproducibility):
+
+```yaml
+ours:
+  adapter: hf_text
+  repo_id: "HuggingFaceTB/SmolLM2-1.7B-Instruct"
+  revision: "31b70e2e869a7173562077fd711b654946d38674"
+  modality: text
+  device: cpu  # change to cuda/mps if available
+  dtype: float32  # on GPU: bfloat16/float16 is typically faster
+
+base:
+  adapter: hf_text
+  repo_id: "HuggingFaceTB/SmolLM2-360M-Instruct"
+  revision: "a10cc1512eabd3dde888204e902eca88bddb4951"
+  modality: text
+  device: cpu
+  dtype: float32
+```
+
+2. Ensure `configs/run.yaml` uses a text-only matrix:
+
+```yaml
+matrix:
+  conditions: [c_only, claim_only]
+  prompt_modes: [D, R]
+  include_panels_run: false
+  reproducibility_repeats: 2
+```
+
+3. Run the full evaluation (no `--limit`):
+
+```bash
+musciclaim-eval \
+  --run-config configs/run.yaml \
+  --models-config configs/models.yaml \
+  --run-id exp_full_text_smollm2
+```
+
+4. Read results:
+- `scores/exp_full_text_smollm2/report.md`
+- `scores/exp_full_text_smollm2/summary.csv`
+
 ## Artifact Contract
 
 ### Predictions JSONL
