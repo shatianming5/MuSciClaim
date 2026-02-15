@@ -16,3 +16,23 @@ Aggregated metrics (CSV/JSON) derived from `runs/`. This directory is gitignored
 | --- | --- | --- |
 | `scores/.gitkeep` | Keeps directory in git | Output dirs are gitignored but documented |
 | `scores/README.md` | Output contract | Explains where summary tables live |
+
+## How To Use
+
+1. After running `musciclaim-eval`, open the one-page report:
+
+```bash
+cat scores/<run_id>/report.md
+```
+
+2. Inspect the CSV summary:
+
+```bash
+head -n 5 scores/<run_id>/summary.csv
+```
+
+3. Recompute metrics without rerunning inference:
+
+```bash
+musciclaim-metrics --run-id <run_id>
+```

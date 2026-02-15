@@ -72,6 +72,75 @@ musciclaim-eval --run-config configs/run.yaml --models-config configs/models.yam
 - `runs/<run_id>/repro_report.json` (if reproducibility repeats are enabled)
 - `scores/<run_id>/summary.csv`
 
+## Configure Models
+
+MuSciClaim is model-agnostic via adapters. Edit `configs/models.yaml` and choose an adapter per model
+key (typically `ours` and optionally `base`).
+
+### Dummy (smoke testing)
+
+```yaml
+ours:
+  adapter: dummy
+  repo_id: null
+  revision: null
+  modality: text
+  device: cpu
+  dtype: float32
+```
+
+### Text-only Transformers model
+
+```yaml
+ours:
+  adapter: hf_text
+  repo_id: "YOUR_TEXT_MODEL_ID"
+  revision: "YOUR_SHA_OR_TAG"
+  modality: text
+  device: cuda
+  dtype: bfloat16
+```
+
+### Multimodal (VLM) Transformers model
+
+```yaml
+ours:
+  adapter: hf_vlm
+  repo_id: "YOUR_VLM_MODEL_ID"
+  revision: "YOUR_SHA_OR_TAG"
+  modality: vlm
+  device: cuda
+  dtype: float16
+```
+
+If you only want to evaluate one model, you can omit the `base:` block (paired significance will
+then be skipped).
+
+## Pick The Right Run Matrix
+
+Edit `configs/run.yaml`:
+- For text-only models, use `matrix.conditions: [c_only, claim_only]`.
+- For VLM models, use `matrix.conditions: [full, c_only, f_only, claim_only]` and keep
+  `matrix.include_panels_run: true` for localization.
+
+## Common Commands
+
+Run end-to-end evaluation:
+```bash
+musciclaim-eval --run-config configs/run.yaml --models-config configs/models.yaml
+```
+
+Recompute metrics from an existing run directory:
+```bash
+musciclaim-metrics --run-id <run_id>
+```
+
+Run documentation hygiene checks:
+```bash
+musciclaim-check-readmes
+musciclaim-check-docstrings
+```
+
 ## Artifact Contract
 
 ### Predictions JSONL

@@ -11,3 +11,17 @@ Unit tests for parsing, panel normalization, and metrics. The test suite is inte
 | `tests/test_panels.py` | Panel normalization tests | Keeps localization evaluation consistent |
 | `tests/test_metrics.py` | Metrics tests | Ensures Macro-F1, localization, and flip-rate computations are correct |
 | `tests/test_bootstrap.py` | Bootstrap tests | Ensures paired bootstrap CI helper behaves as expected |
+
+## How To Use
+
+Run the unit tests from the repo root:
+
+```bash
+pytest -q
+```
+
+If you are using the repo venv explicitly:
+
+```bash
+.venv/bin/pytest -q
+```
