@@ -19,7 +19,6 @@ This repo implements the end-to-end pipeline described in `docs/plan.md`:
 | `.gitignore` | Git hygiene | Keeps outputs and local environment files out of version control |
 | `.editorconfig` | Editor hygiene | Enforces consistent whitespace/newline rules across editors |
 | `plan.md` | Pointer doc | Links to the canonical plan in `docs/plan.md` |
-| `.github/` | GitHub configuration | CI workflows and GitHub-specific repo settings |
 | `docs/` | Documentation | Canonical plan and future experiment/verification docs |
 | `configs/` | YAML configs | Explicit, reproducible model and run settings |
 | `src/` | Source root | Python package source tree (uses the `src/` layout) |

@@ -10,8 +10,6 @@ from pathlib import Path
 
 DEFAULT_REQUIRED_DIRS = [
     Path("."),
-    Path(".github"),
-    Path(".github/workflows"),
     Path("docs"),
     Path("configs"),
     Path("scripts"),
