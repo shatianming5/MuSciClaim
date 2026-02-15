@@ -33,14 +33,14 @@ This repo implements the end-to-end pipeline described in `docs/plan.md`:
 
 ```mermaid
 flowchart TD
-  A[Load HF dataset + lock revision] --> B[Preflight checks]
-  B --> C[Download/cache figures]
-  C --> D[Build run matrix: Full/C-only/F-only/Claim-only + prompt modes]
-  D --> E[Model inference via adapter (VLM or text-only)]
-  E --> F[Strict JSON parse + one format-fix retry]
-  F --> G[Write predictions.jsonl + run_metadata.json]
-  G --> H[Compute metrics: Macro-F1, bias, synergy, flip-rate, localization]
-  H --> I[Write summary.csv + error slices]
+  A["Load HF dataset + lock revision"] --> B["Preflight checks"]
+  B --> C["Download/cache figures"]
+  C --> D["Build run matrix: Full/C-only/F-only/Claim-only + prompt modes"]
+  D --> E["Model inference via adapter: VLM or text-only"]
+  E --> F["Strict JSON parse + one format-fix retry"]
+  F --> G["Write predictions.jsonl + run_metadata.json"]
+  G --> H["Compute metrics: Macro-F1, bias, synergy, flip-rate, localization"]
+  H --> I["Write summary.csv + error slices"]
 ```
 
 ## Quickstart
