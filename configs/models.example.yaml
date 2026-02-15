@@ -1,0 +1,24 @@
+# Copy this file to configs/models.yaml and fill in exact model IDs and revisions.
+#
+# Notes:
+# - Always pin a specific revision (tag or commit SHA) for reproducibility.
+# - Choose adapter based on model interface:
+#   - hf_text: text-only transformers model
+#   - hf_vlm:  multimodal transformers model (image+text)
+#   - dummy:   deterministic test adapter (no external deps)
+
+ours:
+  adapter: dummy
+  repo_id: null
+  revision: null
+  modality: text
+  device: cpu
+  dtype: float32
+
+base:
+  adapter: dummy
+  repo_id: null
+  revision: null
+  modality: text
+  device: cpu
+  dtype: float32

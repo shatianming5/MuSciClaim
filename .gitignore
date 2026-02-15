@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+
+# Tools
+.cache/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local configs (copy from *.example.yaml)
+configs/models.yaml
+configs/run.yaml
+
+# Outputs (keep README + .gitkeep)
+runs/*
+!runs/README.md
+!runs/.gitkeep
+scores/*
+!scores/README.md
+!scores/.gitkeep
+analysis/*
+!analysis/README.md
+!analysis/.gitkeep
+
+# OS
+.DS_Store

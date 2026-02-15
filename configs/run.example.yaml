@@ -1,0 +1,41 @@
+# Copy this file to configs/run.yaml and adjust as needed.
+
+dataset:
+  repo_id: "StonyBrookNLP/MuSciClaims"
+  revision: null  # Optional: pin dataset revision/commit SHA for reproducibility
+  split: "test"
+
+io:
+  out_root: "runs"
+  scores_root: "scores"
+  analysis_root: "analysis"
+  cache_dir: ".cache/musciclaim"
+
+preprocessing:
+  resize_max_side: null  # e.g. 1536, or null to disable resizing
+  preserve_aspect: true
+
+inference:
+  batch_size: 1
+  timeout_s: 120
+  decoding:
+    temperature: 0.0
+    top_p: 1.0
+    max_new_tokens_decision: 128
+    max_new_tokens_reasoning: 256
+
+matrix:
+  conditions: [full, c_only, f_only, claim_only]
+  prompt_modes: [D, R]
+  include_panels_run: true  # Adds a Full+PANELS run for localization
+  reproducibility_repeats: 2
+
+policies:
+  invalid_json_retry: true
+  invalid_json_max_retries: 1
+  invalid_json_policy: invalid  # keep record, mark invalid_output
+  image_failure_policy: invalid  # keep record, mark invalid_input_image
+
+reporting:
+  error_slice_seed: 1337
+  error_slice_max_items: 30
