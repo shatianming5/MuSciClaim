@@ -10,19 +10,7 @@ import time
 from typing import Any
 
 from musciclaim.models.base import AdapterInfo, GenerationResult, ModelAdapter
-
-
-def _resolve_torch_dtype(dtype: str):
-    import torch
-
-    d = (dtype or "").lower().strip()
-    if d in {"float16", "fp16"}:
-        return torch.float16
-    if d in {"bfloat16", "bf16"}:
-        return torch.bfloat16
-    if d in {"float32", "fp32"}:
-        return torch.float32
-    return None
+from musciclaim.models.torch_utils import resolve_torch_dtype
 
 
 class HFVLMAdapter(ModelAdapter):
@@ -55,7 +43,7 @@ class HFVLMAdapter(ModelAdapter):
 
         self._processor = AutoProcessor.from_pretrained(repo_id, revision=revision)
 
-        torch_dtype = _resolve_torch_dtype(dtype)
+        torch_dtype = resolve_torch_dtype(dtype)
 
         model = None
         load_errs: list[str] = []

@@ -6,11 +6,14 @@ The evaluation runner: run matrix expansion, inference loop, artifact writing, a
 
 | Path | Role | Why it exists |
 | --- | --- | --- |
-| `src/musciclaim/pipeline/README.md` | Pipeline index | Documents runner components and artifact writing |
-| `src/musciclaim/pipeline/__init__.py` | Package marker | Keeps the pipeline modules importable as a package |
-| `src/musciclaim/pipeline/matrix.py` | Run matrix builder | Turns configs into explicit runs (model x condition x prompt mode) |
-| `src/musciclaim/pipeline/runner.py` | Main runner | Executes runs and writes `predictions.jsonl` |
-| `src/musciclaim/pipeline/metadata.py` | Run metadata capture | Records environment and provenance for auditability |
+| `pipeline/README.md` | Pipeline index | Documents runner components and artifact writing |
+| `pipeline/__init__.py` | Package marker | Keeps the pipeline modules importable as a package |
+| `pipeline/runner.py` | Main runner | Orchestrates the evaluation loop and writes `predictions.jsonl` |
+| `pipeline/matrix.py` | Run matrix builder | Turns configs into explicit runs (model x condition x prompt mode) |
+| `pipeline/metadata.py` | Run metadata capture | Records environment and provenance for auditability |
+| `pipeline/helpers.py` | Runner utilities | `utc_run_id`, `condition_flags`, `max_new_tokens`, JSONL writer |
+| `pipeline/repro.py` | Reproducibility checks | Compares repeated prediction files for determinism audits (A5) |
+| `pipeline/error_slices.py` | Error slice reports | Writes high-risk misclassification slices for human review |
 
 ## How To Use
 

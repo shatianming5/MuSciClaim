@@ -6,13 +6,14 @@ Model adapters behind a small interface so the pipeline is model-agnostic.
 
 | Path | Role | Why it exists |
 | --- | --- | --- |
-| `src/musciclaim/models/README.md` | Models index | Documents adapters and how to add new ones |
-| `src/musciclaim/models/__init__.py` | Package marker | Keeps the model modules importable as a package |
-| `src/musciclaim/models/base.py` | Adapter protocol | Single interface for text-only and VLM models |
-| `src/musciclaim/models/dummy.py` | Deterministic adapter | Enables smoke tests without GPUs or external downloads |
-| `src/musciclaim/models/hf_text.py` | HF text adapter | Runs text-only transformers models |
-| `src/musciclaim/models/hf_vlm.py` | HF VLM adapter | Runs multimodal transformers models (image + text) |
-| `src/musciclaim/models/factory.py` | Adapter factory | Central place to map config -> adapter instance |
+| `models/README.md` | Models index | Documents adapters and how to add new ones |
+| `models/__init__.py` | Package marker | Keeps the model modules importable as a package |
+| `models/base.py` | Adapter protocol | Single interface for text-only and VLM models |
+| `models/factory.py` | Adapter factory | Central place to map config -> adapter instance |
+| `models/torch_utils.py` | Shared torch helpers | `resolve_torch_dtype()` — used by both HF adapters |
+| `models/dummy.py` | Deterministic adapter | Enables smoke tests without GPUs or external downloads |
+| `models/hf_text.py` | HF text adapter | Runs text-only transformers models |
+| `models/hf_vlm.py` | HF VLM adapter | Runs multimodal transformers models (image + text) |
 
 ## How To Use
 

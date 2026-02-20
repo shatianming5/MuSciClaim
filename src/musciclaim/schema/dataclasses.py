@@ -1,59 +1,19 @@
-"""Core data structures for MuSciClaim.
+"""Core dataclasses for MuSciClaim.
 
-The goal is to keep the evaluation pipeline strongly typed and easy to audit.
+What it does:
+    Defines the frozen dataclasses used across the evaluation pipeline —
+    evaluation examples, parsed outputs, image metadata, and prediction records.
+
+Why it exists:
+    Keeps the pipeline strongly typed and easy to audit.
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass
-from enum import Enum
 from typing import Any
 
-
-class Decision(str, Enum):
-    """Allowed 3-way decisions.
-
-    What it does:
-        Enumerates the only valid labels for MuSciClaims claim verification.
-
-    Why it exists:
-        Prevents stringly-typed label drift and keeps parsing/metrics contracts stable.
-    """
-
-    SUPPORT = "SUPPORT"
-    CONTRADICT = "CONTRADICT"
-    NEUTRAL = "NEUTRAL"
-
-
-class PromptMode(str, Enum):
-    """Prompt/output schema variants.
-
-    What it does:
-        Declares which strict JSON schema the model must follow (decision-only, reasoning, panels).
-
-    Why it exists:
-        Output shape affects parsing, metrics, and localization; it must be explicit and validated.
-    """
-
-    D = "D"  # decision-only
-    R = "R"  # short reasoning + decision
-    PANELS = "PANELS"  # panels + reasoning + decision
-
-
-class Condition(str, Enum):
-    """Input ablation conditions.
-
-    What it does:
-        Defines the input ablations used to diagnose cross-modal necessity.
-
-    Why it exists:
-        High scores are meaningless if the model can ignore evidence; ablations make this testable.
-    """
-
-    FULL = "full"
-    C_ONLY = "c_only"
-    F_ONLY = "f_only"
-    CLAIM_ONLY = "claim_only"
+from musciclaim.schema.enums import Decision
 
 
 @dataclass(frozen=True)
