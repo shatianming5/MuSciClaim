@@ -1,0 +1,39 @@
+dataset:
+  repo_id: "StonyBrookNLP/MuSciClaims"
+  revision: null
+  split: "test"
+
+io:
+  out_root: "runs"
+  scores_root: "scores"
+  analysis_root: "analysis"
+  cache_dir: ".cache/musciclaim"
+
+preprocessing:
+  resize_max_side: null
+  preserve_aspect: true
+
+inference:
+  batch_size: 1
+  timeout_s: 120
+  decoding:
+    temperature: 0.0
+    top_p: 1.0
+    max_new_tokens_decision: 128
+    max_new_tokens_reasoning: 256
+
+matrix:
+  conditions: [c_only, claim_only]
+  prompt_modes: [D, R]
+  include_panels_run: false
+  reproducibility_repeats: 2
+
+policies:
+  invalid_json_retry: true
+  invalid_json_max_retries: 1
+  invalid_json_policy: invalid
+  image_failure_policy: invalid
+
+reporting:
+  error_slice_seed: 1337
+  error_slice_max_items: 30

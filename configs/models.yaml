@@ -1,0 +1,7 @@
+ours:
+  adapter: hf_text
+  repo_id: "mistralai/Mixtral-8x7B-Instruct-v0.1"
+  revision: null
+  modality: text
+  device: auto
+  dtype: float16

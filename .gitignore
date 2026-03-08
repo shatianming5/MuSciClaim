@@ -10,10 +10,6 @@ __pycache__/
 .mypy_cache/
 .ruff_cache/
 
-# Local configs (copy from *.example.yaml)
-configs/models.yaml
-configs/run.yaml
-
 # Outputs (keep README + .gitkeep)
 runs/*
 !runs/README.md
@@ -24,6 +20,12 @@ scores/*
 analysis/*
 !analysis/README.md
 !analysis/.gitkeep
+
+# Training intermediate state (not needed for reproducibility)
+**/optimizer.pt
+**/scheduler.pt
+**/rng_state.pth
+**/training_args.bin
 
 # OS
 .DS_Store

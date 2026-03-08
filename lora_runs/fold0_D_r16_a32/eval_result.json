@@ -1,0 +1,31 @@
+{
+  "SUPPORT": {
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0
+  },
+  "NEUTRAL": {
+    "precision": 0.3333,
+    "recall": 1.0,
+    "f1": 0.5
+  },
+  "CONTRADICT": {
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0
+  },
+  "macro_f1": 0.1667,
+  "confusion": {
+    "SUPPORT": {
+      "NEUTRAL": 101
+    },
+    "NEUTRAL": {
+      "NEUTRAL": 101
+    },
+    "CONTRADICT": {
+      "NEUTRAL": 101
+    }
+  },
+  "invalid_count": 0,
+  "total": 303
+}

@@ -32,16 +32,28 @@ class HFTextAdapter(ModelAdapter):
         self._tokenizer = AutoTokenizer.from_pretrained(repo_id, revision=revision, use_fast=True)
 
         torch_dtype = resolve_torch_dtype(dtype)
-        self._model = AutoModelForCausalLM.from_pretrained(
-            repo_id,
-            revision=revision,
-            torch_dtype=torch_dtype,
-            low_cpu_mem_usage=True,
-        )
-        self._model.eval()
 
-        self._device = device
-        self._model.to(device)
+        # Support device_map="auto" for multi-GPU sharding (e.g. large MoE models).
+        if device == "auto":
+            self._model = AutoModelForCausalLM.from_pretrained(
+                repo_id,
+                revision=revision,
+                torch_dtype=torch_dtype,
+                device_map="auto",
+                low_cpu_mem_usage=True,
+            )
+            self._device = None  # managed by accelerate device_map
+        else:
+            self._model = AutoModelForCausalLM.from_pretrained(
+                repo_id,
+                revision=revision,
+                torch_dtype=torch_dtype,
+                low_cpu_mem_usage=True,
+            )
+            self._device = device
+            self._model.to(device)
+
+        self._model.eval()
 
         if self._tokenizer.pad_token is None and self._tokenizer.eos_token is not None:
             self._tokenizer.pad_token = self._tokenizer.eos_token
@@ -92,8 +104,8 @@ class HFTextAdapter(ModelAdapter):
         """Generate raw text output from a text-only transformers model.
 
         What it does:
-            Tokenizes the prompt and runs `model.generate()` with deterministic settings when
-            `temperature == 0`.
+            Tokenizes the prompt and runs model.generate() with deterministic settings when
+            temperature == 0.
 
         Why it exists:
             Provides a minimal adapter so the evaluation runner can stay model-agnostic.
@@ -104,10 +116,12 @@ class HFTextAdapter(ModelAdapter):
         t0 = time.perf_counter()
 
         inputs = self._tokenizer(prompt, return_tensors="pt")
-        input_ids = inputs["input_ids"].to(self._device)
+        # When using device_map="auto", send inputs to the model's first device.
+        target_device = self._device or self._model.device
+        input_ids = inputs["input_ids"].to(target_device)
         attn = inputs.get("attention_mask")
         if attn is not None:
-            attn = attn.to(self._device)
+            attn = attn.to(target_device)
 
         do_sample = float(temperature) > 0.0
         gen_kwargs: dict[str, Any] = {
